@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+  "content_security_policy": "script-src 'self'; object-src 'self';",
+
+  "name": "Favourite Sites",
+  "description": "Highlight favourite sites",
+  "version": "1.0",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.google.com/*"
+      ],
+      "js": ["content.js"]
+    }
+  ],
+
+  "icons":{
+    "64" : "icon.png"
+  }
+}
