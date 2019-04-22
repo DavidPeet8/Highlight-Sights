@@ -25,17 +25,27 @@ function contains(str1, str2){
 function getElements(){
     elements = document.getElementsByClassName('g');
     console.log(elements);
-    console.log(elements[1].children[0].children[0].children[0].children[0].attributes[0].textContent);
-    for(let i = 1; i < elements.length; i++){
+    for(let i = 0; i < elements.length; i++){
         console.log(i);
         if(elements[i].attributes[0].textContent == 'g'){
             for(let j = 0; j < goodURIs.length; j++){
-                if(contains(elements[i].children[0].children[0].children[0].children[0].attributes[0].textContent, 
-                    goodURIs[j][0])){
-                    elements[i].style.padding = "15px";
-                    elements[i].style.borderRadius = "10px";
-                    elements[i].style.marginTop = "-10px";
-                    elements[i].style.background = goodURIs[j][1];
+                if(elements[i].parentNode.attributes[0].textContent == "srg"){
+                    if(contains(elements[i].children[0].children[0].children[0].children[0].attributes[0].textContent, 
+                        goodURIs[j][0])){
+                        elements[i].style.padding = "15px";
+                        elements[i].style.borderRadius = "10px";
+                        elements[i].style.marginTop = "-10px";
+                        elements[i].style.background = goodURIs[j][1];
+                    }
+                }else if(elements[i].parentNode.attributes[0].textContent == "bkWMgd"){
+                    if(contains(elements[i].children[1].children[1].children[0].children[0].children[0].attributes[0].textContent, 
+                        goodURIs[j][0])){
+                        elements[i].style.padding = "15px";
+                        elements[i].style.width = "100%";
+                        elements[i].style.borderRadius = "10px";
+                        elements[i].style.marginTop = "-10px";
+                        elements[i].style.background = goodURIs[j][1];
+                    }
                 }
             }
         }
@@ -44,3 +54,5 @@ function getElements(){
 
 window.onload = getElements();
 
+// bkWMgd -> special first parent class
+// srg --> regular parent class
