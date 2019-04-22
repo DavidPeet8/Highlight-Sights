@@ -18,6 +18,10 @@ function contains(str1, str2){
     return false;
 }
 
+
+// Get all elements that have designated class name -> g is for each element on google search page
+// then check to see if each element is specified in goodURIs
+// If yes, style using color given in each pair of goodURIs
 function getElements(){
     elements = document.getElementsByClassName('g');
     console.log(elements);
