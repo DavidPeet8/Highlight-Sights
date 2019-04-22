@@ -6,7 +6,20 @@ var goodURIs = [
     ["www.w3schools.com", "#caffa8"], 
     ["developer.mozilla.org", "#bccaff"]];
 
-// returns if str2 is found in str1
+// containsWrap(str1, retval): returns if any of the URIs in goodURIs is contained in str1
+// containsWrap: String Object --> Bool
+function containsWrap(str1, retval){
+    for (let i = 0; i < goodURIs.length; ++i){
+        if(contains(str1, goodURIs[i][0])){
+            retval.val = i;
+            return true;
+        }
+    }
+}
+
+
+// contains(str1, str2): returns if str2 is contained in str1
+// contains: String String --> Bool
 function contains(str1, str2){
     let curChar = 0;
     for (let i = 0; i < str1.length; i++){
@@ -19,33 +32,48 @@ function contains(str1, str2){
 }
 
 
-// Get all elements that have designated class name -> g is for each element on google search page
-// then check to see if each element is specified in goodURIs
-// If yes, style using color given in each pair of goodURIs
+// firstDiv(): recursively goes into childeren of element, entering the first div 
+//    that is a child of element every time, goes into depth children before returning element
+// firstDiv: HTMLElement Int --> HTMLElement / Int
+function firstDiv(element, depth){
+    if(depth == 0) return element;
+    for(let i = 0; i < element.children.length; i++){
+        if(element.children[i].tagName == 'DIV'){
+            return firstDiv(element.children[i], --depth);
+        }
+    }
+    return 0;
+}
+
+
+// styleElement(): styles element with appropriate color given by index once found
+// styleElement: HTMLElement Int --> Void
+function styleElement(element, index){
+    element.style.padding = "15px";
+    element.style.width = "100%";
+    element.style.borderRadius = "10px";
+    element.style.marginTop = "-10px";
+    element.style.background = goodURIs[index][1];
+}
+
+
+// getElements(): gets the elements with given class name on google search results page
+//    , and modifies the styles of elements that contain a good URI
+// getElements: Void --> Void
 function getElements(){
     elements = document.getElementsByClassName('g');
     console.log(elements);
+    let index = {val: 0}; // in an attempt to imitate pointers w primatives
     for(let i = 0; i < elements.length; i++){
         console.log(i);
         if(elements[i].attributes[0].textContent == 'g'){
-            for(let j = 0; j < goodURIs.length; j++){
-                if(elements[i].parentNode.attributes[0].textContent == "srg"){
-                    if(contains(elements[i].children[0].children[0].children[0].children[0].attributes[0].textContent, 
-                        goodURIs[j][0])){
-                        elements[i].style.padding = "15px";
-                        elements[i].style.borderRadius = "10px";
-                        elements[i].style.marginTop = "-10px";
-                        elements[i].style.background = goodURIs[j][1];
-                    }
-                }else if(elements[i].parentNode.attributes[0].textContent == "bkWMgd"){
-                    if(contains(elements[i].children[1].children[1].children[0].children[0].children[0].attributes[0].textContent, 
-                        goodURIs[j][0])){
-                        elements[i].style.padding = "15px";
-                        elements[i].style.width = "100%";
-                        elements[i].style.borderRadius = "10px";
-                        elements[i].style.marginTop = "-10px";
-                        elements[i].style.background = goodURIs[j][1];
-                    }
+            if(elements[i].parentNode.attributes[0].textContent == "srg"){ // div wrapper class for regular content
+                if(containsWrap(firstDiv(elements[i], 3).children[0].attributes[0].textContent, index)){
+                    styleElement(elements[i], index.val);
+                }
+            }else if(elements[i].parentNode.attributes[0].textContent == "bkWMgd"){ // div wrapper class for suggestion boxes
+                if(containsWrap(firstDiv(elements[i], 4).children[0].attributes[0].textContent, index)){
+                    styleElement(elements[i], index.val);
                 }
             }
         }
