@@ -63,7 +63,6 @@ function styleElement(element, index){
 function getElements(){
     elements = document.getElementsByClassName('g');
     console.log(elements);
-    console.log(elements[0].getAttribute('data-hveid'));
     let index = {val: 0}; // in an attempt to imitate pointers w primatives
     for(let i = 0; i < elements.length; i++){
         console.log(i);
