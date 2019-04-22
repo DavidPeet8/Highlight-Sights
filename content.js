@@ -63,15 +63,16 @@ function styleElement(element, index){
 function getElements(){
     elements = document.getElementsByClassName('g');
     console.log(elements);
+    console.log(elements[0].getAttribute('data-hveid'));
     let index = {val: 0}; // in an attempt to imitate pointers w primatives
     for(let i = 0; i < elements.length; i++){
         console.log(i);
         if(elements[i].attributes[0].textContent == 'g'){
-            if(elements[i].parentNode.attributes[0].textContent == "srg"){ // div wrapper class for regular content
+            if(elements[i].getAttribute('data-hveid') == null){ // div wrapper class for regular content
                 if(containsWrap(firstDiv(elements[i], 3).children[0].attributes[0].textContent, index)){
                     styleElement(elements[i], index.val);
                 }
-            }else if(elements[i].parentNode.attributes[0].textContent == "bkWMgd"){ // div wrapper class for suggestion boxes
+            }else if(elements[i].getAttribute('data-hveid') != null){ // div wrapper class for suggestion boxes
                 if(containsWrap(firstDiv(elements[i], 4).children[0].attributes[0].textContent, index)){
                     styleElement(elements[i], index.val);
                 }
@@ -82,5 +83,6 @@ function getElements(){
 
 window.onload = getElements();
 
-// bkWMgd -> special first parent class
-// srg --> regular parent class
+// element.getAttribute(string): returns the attribute of element called string (no case changes needed)
+//    returns null if the attribute DNE on an element
+// Note to set - CSS properties on an element case change to Camel Case
